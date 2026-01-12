@@ -1,0 +1,5 @@
+{
+  "name": "NanoBanana Interior Designer",
+  "description": "An AI-powered interior design app that uses Nano banana models to detect and recolor furniture and fixtures in uploaded room images.",
+  "requestFramePermissions": []
+}
