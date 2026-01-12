@@ -1,173 +1,297 @@
 import React, { useState } from 'react';
+import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUser, FaArrowLeft } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, User, UserPlus, ArrowLeft, Sparkles } from 'lucide-react';
 
 const Register: React.FC = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formData, setFormData] = useState({
+        email: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+        agreeToTerms: false
+    });
+
+    const [errors, setErrors] = useState<{
+        email?: string;
+        username?: string;
+        password?: string;
+        confirmPassword?: string;
+        agreeToTerms?: string;
+    }>({});
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { login } = useAuth();
     const navigate = useNavigate();
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+        if (errors[name as keyof typeof errors]) {
+            setErrors(prev => ({ ...prev, [name]: '' }));
+        }
+    };
+
+    const validateForm = () => {
+        const newErrors: typeof errors = {};
+
+        // Email validation
+        if (!formData.email) {
+            newErrors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = 'Please enter a valid email address';
+        }
+
+        // Username validation
+        if (!formData.username.trim()) {
+            newErrors.username = 'Username is required';
+        } else if (formData.username.length < 3) {
+            newErrors.username = 'Username must be at least 3 characters';
+        } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+            newErrors.username = 'Username can only contain letters, numbers, and underscores';
+        }
+
+        // Password validation
+        if (!formData.password) {
+            newErrors.password = 'Password is required';
+        } else if (formData.password.length < 6) {
+            newErrors.password = 'Password must be at least 6 characters';
+        }
+
+        // Confirm password validation
+        if (!formData.confirmPassword) {
+            newErrors.confirmPassword = 'Please confirm your password';
+        } else if (formData.password !== formData.confirmPassword) {
+            newErrors.confirmPassword = 'Passwords do not match';
+        }
+
+        // Terms validation
+        if (!formData.agreeToTerms) {
+            newErrors.agreeToTerms = 'You must agree to the terms and conditions';
+        }
+
+        return newErrors;
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
+        const validationErrors = validateForm();
 
-        if (password !== confirmPassword) {
-            setError('Passwords do not match');
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
 
-        setIsSubmitting(true);
+        setIsLoading(true);
 
         // Simulate API call - User will integrate real API later
         setTimeout(() => {
             try {
-                if (name && email && password) {
-                    // Mock successful registration and login
-                    login('mock_token_' + Math.random(), {
-                        id: '1',
-                        name: name,
-                        email: email
-                    });
-                    navigate('/');
-                } else {
-                    setError('Please fill in all fields');
-                }
+                // Mock successful registration and login
+                login('mock_token_' + Math.random(), {
+                    id: '1',
+                    name: formData.username,
+                    email: formData.email
+                });
+                setIsLoading(false);
+                navigate('/');
             } catch (err) {
-                setError('Registration failed. Please try again.');
-            } finally {
-                setIsSubmitting(false);
+                console.error('Registration error:', err);
+                setIsLoading(false);
             }
-        }, 1000);
+        }, 1500);
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center p-4 relative overflow-hidden">
-            {/* Background blobs */}
-            <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 rounded-full blur-[120px] animate-pulse"></div>
-            <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-
-            <div className="w-full max-w-md relative z-10">
-                <Link to="/login" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors group">
-                    <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                    Back to login
-                </Link>
-
-                <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-8 shadow-2xl">
-                    <div className="text-center mb-10">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-blue-600 p-0.5 mb-6">
-                            <div className="w-full h-full bg-[#0a0a0a] rounded-[14px] flex items-center justify-center">
-                                <Sparkles className="w-8 h-8 text-purple-500" />
+        <div className="h-screen bg-white flex items-center justify-center p-4 overflow-hidden">
+            {/* Main Container */}
+            <div className="relative w-full max-w-sm">
+                {/* Combined Yellow Header and Signup Card */}
+                <div className="rounded-xl shadow-xl overflow-hidden border border-gray-300">
+                    {/* Yellow Header - Pure #EFE223 with Logo */}
+                    <div className="bg-[#EFE223] p-4 text-center">
+                        <div className="flex flex-col items-center justify-center">
+                            {/* KMI Logo - Same size as login page */}
+                            <div className="mb-2">
+                                <img
+                                    src="https://kmigroups.com/images/logo.webp"
+                                    alt="KMI Logo"
+                                    className="h-10 w-auto object-contain"
+                                />
                             </div>
+                            <h1 className="text-lg font-bold text-black">KMI AI Design Studio</h1>
                         </div>
-                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 mb-2">
-                            Create Account
-                        </h1>
-                        <p className="text-gray-400">Join our community of creative designers</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                        {error && (
-                            <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-3 rounded-xl text-sm text-center">
-                                {error}
-                            </div>
-                        )}
-
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Full Name</label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within:text-purple-500 transition-colors">
-                                    <User size={18} />
+                    {/* Signup Form */}
+                    <div className="bg-white p-4">
+                        <form onSubmit={handleSubmit} className="space-y-3">
+                            {/* Email Field */}
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                                    Email Address
+                                </label>
+                                <div className="relative">
+                                    <div className="absolute left-2.5 top-2.5 text-gray-400 text-sm">
+                                        <FaEnvelope />
+                                    </div>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className={`w-full pl-8 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                        placeholder="Enter your email"
+                                    />
                                 </div>
-                                <input
-                                    type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all placeholder:text-gray-600"
-                                    placeholder="John Doe"
-                                    required
-                                />
+                                {errors.email && (
+                                    <p className="mt-0.5 text-xs text-red-600">{errors.email}</p>
+                                )}
                             </div>
-                        </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Email Address</label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within:text-purple-500 transition-colors">
-                                    <Mail size={18} />
+                            {/* Username Field */}
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                                    Username
+                                </label>
+                                <div className="relative">
+                                    <div className="absolute left-2.5 top-2.5 text-gray-400 text-sm">
+                                        <FaUser />
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        className={`w-full pl-8 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.username ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                        placeholder="Choose a username"
+                                    />
                                 </div>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all placeholder:text-gray-600"
-                                    placeholder="name@example.com"
-                                    required
-                                />
+                                {errors.username && (
+                                    <p className="mt-0.5 text-xs text-red-600">{errors.username}</p>
+                                )}
                             </div>
-                        </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Password</label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within:text-purple-500 transition-colors">
-                                    <Lock size={18} />
+                            {/* Password Field */}
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                                    Password
+                                </label>
+                                <div className="relative">
+                                    <div className="absolute left-2.5 top-2.5 text-gray-400 text-sm">
+                                        <FaLock />
+                                    </div>
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        className={`w-full pl-8 pr-10 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                        placeholder="Create a password"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-[#EFE223] text-sm"
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
                                 </div>
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all placeholder:text-gray-600"
-                                    placeholder="••••••••"
-                                    required
-                                />
+                                {errors.password && (
+                                    <p className="mt-0.5 text-xs text-red-600">{errors.password}</p>
+                                )}
                             </div>
-                        </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Confirm Password</label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within:text-purple-500 transition-colors">
-                                    <Lock size={18} />
+                            {/* Confirm Password Field */}
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                                    Confirm Password
+                                </label>
+                                <div className="relative">
+                                    <div className="absolute left-2.5 top-2.5 text-gray-400 text-sm">
+                                        <FaLock />
+                                    </div>
+                                    <input
+                                        type={showConfirmPassword ? 'text' : 'password'}
+                                        name="confirmPassword"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        className={`w-full pl-8 pr-10 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                        placeholder="Confirm your password"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-[#EFE223] text-sm"
+                                    >
+                                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
                                 </div>
-                                <input
-                                    type="password"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all placeholder:text-gray-600"
-                                    placeholder="••••••••"
-                                    required
-                                />
+                                {errors.confirmPassword && (
+                                    <p className="mt-0.5 text-xs text-red-600">{errors.confirmPassword}</p>
+                                )}
                             </div>
+
+                            {/* Terms & Conditions */}
+                            <div className="pt-1">
+                                <div className="flex items-start">
+                                    <input
+                                        type="checkbox"
+                                        id="agreeToTerms"
+                                        name="agreeToTerms"
+                                        checked={formData.agreeToTerms}
+                                        onChange={handleChange}
+                                        className="h-3.5 w-3.5 mt-0.5 text-[#EFE223] rounded focus:ring-[#EFE223] border-gray-300"
+                                    />
+                                    <label htmlFor="agreeToTerms" className="ml-1.5 text-xs text-gray-700">
+                                        I agree to the Terms and Conditions
+                                    </label>
+                                </div>
+                                {errors.agreeToTerms && (
+                                    <p className="mt-0.5 text-xs text-red-600">{errors.agreeToTerms}</p>
+                                )}
+                            </div>
+
+                            {/* Sign Up Button */}
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className={`w-full py-2.5 px-4 rounded-md font-bold text-sm text-black transition-colors ${isLoading
+                                    ? 'bg-[#EFE223] cursor-not-allowed'
+                                    : 'bg-[#EFE223] hover:bg-[#EFE223]'
+                                    }`}
+                            >
+                                {isLoading ? (
+                                    <div className="flex items-center justify-center gap-2">
+                                        <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                                        <span>Creating Account...</span>
+                                    </div>
+                                ) : (
+                                    'SIGN UP'
+                                )}
+                            </button>
+                        </form>
+
+                        {/* Login Link */}
+                        <div className="mt-4 text-center">
+                            <p className="text-gray-600 text-xs text-center flex flex-col items-center gap-1">
+                                Already have an account?{' '}
+                                <Link to="/login" className="text-black hover:text-black font-large flex items-center justify-center gap-1">
+                                    <FaArrowLeft />
+                                    <span>Back to Login</span>
+                                </Link>
+                            </p>
                         </div>
-
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-purple-500/20 flex items-center justify-center gap-2 transform active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed group"
-                        >
-                            {isSubmitting ? (
-                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                            ) : (
-                                <>
-                                    Create Account
-                                    <UserPlus size={18} className="group-hover:scale-110 transition-transform" />
-                                </>
-                            )}
-                        </button>
-                    </form>
-
-                    <p className="mt-8 text-center text-gray-500 text-xs px-4">
-                        By creating an account, you agree to our{' '}
-                        <a href="#" className="underline hover:text-gray-300">Terms of Service</a> and{' '}
-                        <a href="#" className="underline hover:text-gray-300">Privacy Policy</a>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>

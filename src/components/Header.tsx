@@ -95,7 +95,7 @@ const Header: React.FC = () => {
                         {isAuthenticated && (
                             <button
                                 onClick={handleLogout}
-                                className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full font-bold hover:bg-gray-800 transition-all active:scale-95 shadow-md"
+                                className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded font-bold hover:bg-gray-800 transition-all active:scale-95 shadow-md"
                             >
                                 <LogOut size={18} />
                                 Logout
