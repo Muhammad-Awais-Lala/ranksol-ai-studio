@@ -7,7 +7,6 @@ const Login: React.FC = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        rememberMe: false
     });
 
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
@@ -146,7 +145,7 @@ const Login: React.FC = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-[#EFE223] text-sm"
+                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-black text-sm"
                                     >
                                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                                     </button>
@@ -156,22 +155,6 @@ const Login: React.FC = () => {
                                 )}
                             </div>
 
-                            {/* Remember Me - Left aligned */}
-                            <div className="flex items-center pt-1">
-                                <div className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        id="rememberMe"
-                                        name="rememberMe"
-                                        checked={formData.rememberMe}
-                                        onChange={handleChange}
-                                        className="h-3.5 w-3.5 text-[#EFE223] rounded focus:ring-[#EFE223] border-gray-300"
-                                    />
-                                    <label htmlFor="rememberMe" className="ml-1.5 text-xs text-gray-700">
-                                        Remember me
-                                    </label>
-                                </div>
-                            </div>
 
                             {/* Login Button */}
                             <button

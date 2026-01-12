@@ -8,8 +8,7 @@ const Register: React.FC = () => {
         email: '',
         username: '',
         password: '',
-        confirmPassword: '',
-        agreeToTerms: false
+        confirmPassword: ''
     });
 
     const [errors, setErrors] = useState<{
@@ -17,7 +16,6 @@ const Register: React.FC = () => {
         username?: string;
         password?: string;
         confirmPassword?: string;
-        agreeToTerms?: string;
     }>({});
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -70,10 +68,7 @@ const Register: React.FC = () => {
             newErrors.confirmPassword = 'Passwords do not match';
         }
 
-        // Terms validation
-        if (!formData.agreeToTerms) {
-            newErrors.agreeToTerms = 'You must agree to the terms and conditions';
-        }
+        
 
         return newErrors;
     };
@@ -200,7 +195,7 @@ const Register: React.FC = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-[#EFE223] text-sm"
+                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-black text-sm"
                                     >
                                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                                     </button>
@@ -231,7 +226,7 @@ const Register: React.FC = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-[#EFE223] text-sm"
+                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-black text-sm"
                                     >
                                         {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                     </button>
@@ -241,25 +236,7 @@ const Register: React.FC = () => {
                                 )}
                             </div>
 
-                            {/* Terms & Conditions */}
-                            <div className="pt-1">
-                                <div className="flex items-start">
-                                    <input
-                                        type="checkbox"
-                                        id="agreeToTerms"
-                                        name="agreeToTerms"
-                                        checked={formData.agreeToTerms}
-                                        onChange={handleChange}
-                                        className="h-3.5 w-3.5 mt-0.5 text-[#EFE223] rounded focus:ring-[#EFE223] border-gray-300"
-                                    />
-                                    <label htmlFor="agreeToTerms" className="ml-1.5 text-xs text-gray-700">
-                                        I agree to the Terms and Conditions
-                                    </label>
-                                </div>
-                                {errors.agreeToTerms && (
-                                    <p className="mt-0.5 text-xs text-red-600">{errors.agreeToTerms}</p>
-                                )}
-                            </div>
+                            
 
                             {/* Sign Up Button */}
                             <button
