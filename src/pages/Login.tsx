@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUserPlus } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -9,7 +10,7 @@ const Login: React.FC = () => {
         password: '',
     });
 
-    const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+    const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -25,10 +26,13 @@ const Login: React.FC = () => {
         if (errors[name as keyof typeof errors]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
+        if (errors.general) {
+            setErrors(prev => ({ ...prev, general: '' }));
+        }
     };
 
     const validateForm = () => {
-        const newErrors: { email?: string; password?: string } = {};
+        const newErrors: typeof errors = {};
 
         if (!formData.email) {
             newErrors.email = 'Email is required';
@@ -56,23 +60,30 @@ const Login: React.FC = () => {
 
         setIsLoading(true);
 
-        // Simulate API call - User will integrate real API later
-        setTimeout(() => {
-            try {
-                // Mock successful login
-                login('mock_token_' + Math.random(), {
-                    id: '1',
-                    name: formData.email.split('@')[0],
-                    email: formData.email
+        try {
+            const response = await axios.post('https://kmigroups.com/api/login', {
+                email: formData.email,
+                password: formData.password
+            });
+
+            if (response.data.status) {
+                const { token, user } = response.data.data;
+                login(token, {
+                    id: user.id.toString(),
+                    name: user.name,
+                    email: user.email
                 });
-                setIsLoading(false);
                 navigate('/');
-            } catch (err) {
-                console.error('Login error:', err);
-                setErrors({ email: 'Login failed. Please try again.' });
-                setIsLoading(false);
+            } else {
+                setErrors({ general: response.data.message || 'Login failed' });
             }
-        }, 1000);
+        } catch (err: any) {
+            console.error('Login error:', err);
+            const errorMessage = err.response?.data?.message || 'Invalid credentials or server error. Please try again.';
+            setErrors({ general: errorMessage });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -100,6 +111,13 @@ const Login: React.FC = () => {
                     {/* Login Form */}
                     <div className="bg-white p-4">
                         <form onSubmit={handleSubmit} className="space-y-3">
+                            {/* General Error Message */}
+                            {errors.general && (
+                                <div className="p-2 text-xs text-red-600 bg-red-50 border border-red-200 rounded-md text-center">
+                                    {errors.general}
+                                </div>
+                            )}
+
                             {/* Email Field */}
                             <div>
                                 <label className="block text-xs font-semibold text-gray-700 mb-1">

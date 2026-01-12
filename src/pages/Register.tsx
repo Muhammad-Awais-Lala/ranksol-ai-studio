@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUser, FaArrowLeft } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -16,6 +17,7 @@ const Register: React.FC = () => {
         username?: string;
         password?: string;
         confirmPassword?: string;
+        general?: string;
     }>({});
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,6 +34,9 @@ const Register: React.FC = () => {
         }));
         if (errors[name as keyof typeof errors]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
+        }
+        if (errors.general) {
+            setErrors(prev => ({ ...prev, general: '' }));
         }
     };
 
@@ -50,8 +55,8 @@ const Register: React.FC = () => {
             newErrors.username = 'Username is required';
         } else if (formData.username.length < 3) {
             newErrors.username = 'Username must be at least 3 characters';
-        } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
-            newErrors.username = 'Username can only contain letters, numbers, and underscores';
+        } else if (!/^[a-zA-Z0-9_ ]+$/.test(formData.username)) {
+            newErrors.username = 'Username can only contain letters, numbers, spaces, and underscores';
         }
 
         // Password validation
@@ -68,8 +73,6 @@ const Register: React.FC = () => {
             newErrors.confirmPassword = 'Passwords do not match';
         }
 
-        
-
         return newErrors;
     };
 
@@ -84,22 +87,32 @@ const Register: React.FC = () => {
 
         setIsLoading(true);
 
-        // Simulate API call - User will integrate real API later
-        setTimeout(() => {
-            try {
-                // Mock successful registration and login
-                login('mock_token_' + Math.random(), {
-                    id: '1',
-                    name: formData.username,
-                    email: formData.email
+        try {
+            const response = await axios.post('https://kmigroups.com/api/signup', {
+                name: formData.username,
+                email: formData.email,
+                password: formData.password,
+                c_password: formData.confirmPassword
+            });
+
+            if (response.data.status) {
+                const { token, user } = response.data.data;
+                login(token, {
+                    id: user.id.toString(),
+                    name: user.name,
+                    email: user.email
                 });
-                setIsLoading(false);
                 navigate('/');
-            } catch (err) {
-                console.error('Registration error:', err);
-                setIsLoading(false);
+            } else {
+                setErrors({ general: response.data.message || 'Signup failed' });
             }
-        }, 1500);
+        } catch (err: any) {
+            console.error('Registration error:', err);
+            const errorMessage = err.response?.data?.message || 'An error occurred during signup. Please try again.';
+            setErrors({ general: errorMessage });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -126,6 +139,13 @@ const Register: React.FC = () => {
                     {/* Signup Form */}
                     <div className="bg-white p-4">
                         <form onSubmit={handleSubmit} className="space-y-3">
+                            {/* General Error Message */}
+                            {errors.general && (
+                                <div className="p-2 text-xs text-red-600 bg-red-50 border border-red-200 rounded-md text-center">
+                                    {errors.general}
+                                </div>
+                            )}
+
                             {/* Email Field */}
                             <div>
                                 <label className="block text-xs font-semibold text-gray-700 mb-1">
@@ -236,7 +256,7 @@ const Register: React.FC = () => {
                                 )}
                             </div>
 
-                            
+
 
                             {/* Sign Up Button */}
                             <button
