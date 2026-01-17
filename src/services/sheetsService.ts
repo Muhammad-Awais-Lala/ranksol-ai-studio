@@ -1,8 +1,3 @@
-/**
- * Sheets Service
- * Handles fetching texture/material sheets from API
- */
-
 import axios from 'axios';
 
 export interface Sheet {
@@ -14,10 +9,8 @@ export interface Sheet {
     description?: string;
 }
 
-import { API_BASE_URL } from '../../constants';
-
 // Configuration
-const BASE_API_URL = API_BASE_URL + '/areas/products';
+const BASE_API_URL = 'https://kmigroups.com/api/areas/products';
 const CACHE_KEY_PREFIX = 'sheets_cache_';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
@@ -44,14 +37,10 @@ export async function fetchSheets(slugOrSlugs?: string | string[], page: number 
 
     // Fetch from API
     try {
-        console.log("BASE_API_URL", BASE_API_URL);
         const response = await axios.post(`${BASE_API_URL}?page=${page}`, {
             slugs: slugs
         });
-        // console.log("slugs====>", slugs, "page====>", page);
         const data = response.data;
-        // The API response structure might vary, adapting to common patterns
-        // Assuming data is array of sheets or has a sheets property
 
         let sheets: Sheet[] = [];
 
