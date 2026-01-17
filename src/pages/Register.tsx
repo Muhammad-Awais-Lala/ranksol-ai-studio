@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUser, FaArrowLeft } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../../constants';
 
 const Register: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -88,7 +89,7 @@ const Register: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('https://kmigroups.com/api/signup', {
+            const response = await axios.post(`${API_BASE_URL}/signup`, {
                 name: formData.username,
                 email: formData.email,
                 password: formData.password,
@@ -146,29 +147,7 @@ const Register: React.FC = () => {
                                 </div>
                             )}
 
-                            {/* Email Field */}
-                            <div>
-                                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                                    Email Address
-                                </label>
-                                <div className="relative">
-                                    <div className="absolute left-2.5 top-2.5 text-gray-400 text-sm">
-                                        <FaEnvelope />
-                                    </div>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        className={`w-full pl-8 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.email ? 'border-red-500' : 'border-gray-300'
-                                            }`}
-                                        placeholder="Enter your email"
-                                    />
-                                </div>
-                                {errors.email && (
-                                    <p className="mt-0.5 text-xs text-red-600">{errors.email}</p>
-                                )}
-                            </div>
+
 
                             {/* Username Field */}
                             <div>
@@ -191,6 +170,30 @@ const Register: React.FC = () => {
                                 </div>
                                 {errors.username && (
                                     <p className="mt-0.5 text-xs text-red-600">{errors.username}</p>
+                                )}
+                            </div>
+
+                            {/* Email Field */}
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                                    Email Address
+                                </label>
+                                <div className="relative">
+                                    <div className="absolute left-2.5 top-2.5 text-gray-400 text-sm">
+                                        <FaEnvelope />
+                                    </div>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className={`w-full pl-8 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                        placeholder="Enter your email"
+                                    />
+                                </div>
+                                {errors.email && (
+                                    <p className="mt-0.5 text-xs text-red-600">{errors.email}</p>
                                 )}
                             </div>
 

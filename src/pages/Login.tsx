@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUserPlus } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../../constants';
 
 const Login: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -61,7 +62,7 @@ const Login: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('https://kmigroups.com/api/login', {
+            const response = await axios.post(`${API_BASE_URL}/login`, {
                 email: formData.email,
                 password: formData.password
             });
@@ -80,6 +81,37 @@ const Login: React.FC = () => {
         } catch (err: any) {
             console.error('Login error:', err);
             const errorMessage = err.response?.data?.message || 'Invalid credentials or server error. Please try again.';
+            setErrors({ general: errorMessage });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleGuestLogin = async () => {
+        setIsLoading(true);
+        // Clear previous errors
+        setErrors({});
+
+        try {
+            const response = await axios.post(`${API_BASE_URL}/login`, {
+                email: "guest@example.com",
+                password: "Guest@12345"
+            });
+
+            if (response.data.status) {
+                const { token, user } = response.data.data;
+                login(token, {
+                    id: user.id.toString(),
+                    name: user.name,
+                    email: user.email
+                });
+                navigate('/');
+            } else {
+                setErrors({ general: response.data.message || 'Guest login failed' });
+            }
+        } catch (err: any) {
+            console.error('Guest login error:', err);
+            const errorMessage = err.response?.data?.message || 'Guest login failed. Please try again.';
             setErrors({ general: errorMessage });
         } finally {
             setIsLoading(false);
@@ -191,6 +223,21 @@ const Login: React.FC = () => {
                                 ) : (
                                     'LOGIN'
                                 )}
+                            </button>
+
+                            <div className="relative flex items-center justify-center my-4">
+                                <div className="border-t border-gray-300 w-full"></div>
+                                <span className="bg-white px-2 text-xs text-gray-500 font-medium">OR</span>
+                                <div className="border-t border-gray-300 w-full"></div>
+                            </div>
+
+                            <button
+                                type="button"
+                                onClick={handleGuestLogin}
+                                disabled={isLoading}
+                                className="w-full py-2.5 px-4 rounded-md font-bold text-sm text-gray-700 bg-gray-100 border border-gray-300 hover:bg-gray-200 transition-colors"
+                            >
+                                Continue as Guest
                             </button>
                         </form>
 

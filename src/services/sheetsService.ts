@@ -9,8 +9,9 @@ export interface Sheet {
     description?: string;
 }
 
+import { API_BASE_URL } from '../../constants';
+
 // Configuration
-const BASE_API_URL = 'https://kmigroups.com/api/areas/products';
 const CACHE_KEY_PREFIX = 'sheets_cache_';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
@@ -37,7 +38,7 @@ export async function fetchSheets(slugOrSlugs?: string | string[], page: number 
 
     // Fetch from API
     try {
-        const response = await axios.post(`${BASE_API_URL}?page=${page}`, {
+        const response = await axios.post(`${API_BASE_URL}/areas/products?page=${page}`, {
             slugs: slugs
         });
         const data = response.data;
