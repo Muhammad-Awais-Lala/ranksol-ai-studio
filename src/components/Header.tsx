@@ -29,9 +29,8 @@ const Header: React.FC = () => {
 
     const navigationLinks: NavigationLink[] = [
         { text: 'Home', href: 'https://kmigroups.com/' },
-        { text: 'Design Studio', href: 'https://kmigroups.com/public/ai/', target: '_blank' },
-        { text: 'TAC LUX', href: 'https://kmigroups.com/product-category/tac-lux', target: '_blank' },
-        { text: 'Super High Gloss UV', href: 'https://kmigroups.com/product-category/super-high-gloss-uv', target: '_blank' },
+        { text: 'AI Design Studio', href: 'https://kmigroups.com/public/ai/', target: '_blank' },
+        { text: 'Product Studio', href: 'https://kmigroups.com/product-category', target: '_blank' },
         { text: 'Contact us', href: 'https://kmigroups.com/contact', target: '_blank' }
     ];
 

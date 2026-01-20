@@ -194,7 +194,7 @@ function Home() {
                             <div className="flex items-center gap-2 px-1">
                                 <div className="w-1 h-6 bg-[#EFE223] rounded-full"></div>
                                 <h2 className="text-lg font-bold text-black uppercase tracking-wide">
-                                    Project Setup
+                                    Step 1
                                 </h2>
                             </div>
 
@@ -213,7 +213,7 @@ function Home() {
                             <div className="flex items-center gap-2 px-1">
                                 <div className="w-1 h-6 bg-[#EFE223] rounded-full"></div>
                                 <h2 className="text-lg font-bold text-black uppercase tracking-wide">
-                                    Design Tools
+                                    Step 2
                                 </h2>
                             </div>
 
@@ -252,7 +252,6 @@ function Home() {
                                     </label>
                                 </div>
                             </div>
-
                             <ItemSelector
                                 detectedItems={detectedItems}
                                 selectedItems={selectedItems}
@@ -261,6 +260,13 @@ function Home() {
                                 isLoading={isLoading && !detectedItems.length}
                                 multiSelectMode={multiSelectMode}
                             />
+                            {/* Section Label */}
+                            <div className="flex items-center gap-2 px-1">
+                                <div className="w-1 h-6 bg-[#EFE223] rounded-full"></div>
+                                <h2 className="text-lg font-bold text-black uppercase tracking-wide">
+                                    Step 3
+                                </h2>
+                            </div>
 
                             <ProductPicker
                                 selectedSheet={selectedSheet}
@@ -270,7 +276,13 @@ function Home() {
                                     ? selectedItems.map(item => item.slug).filter((s): s is string => s !== undefined)
                                     : undefined}
                             />
-
+                            {/* Section Label */}
+                            <div className="flex items-center gap-2 px-1">
+                                <div className="w-1 h-6 bg-[#EFE223] rounded-full"></div>
+                                <h2 className="text-lg font-bold text-black uppercase tracking-wide">
+                                    Step 4
+                                </h2>
+                            </div>
                             {/* Apply Texture Button */}
                             <button
                                 onClick={handleApplyTexture}
