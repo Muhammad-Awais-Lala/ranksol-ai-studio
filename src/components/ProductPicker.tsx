@@ -74,7 +74,7 @@ const ProductPicker: React.FC<ProductPickerProps> = ({ selectedSheet, onSheetCha
                         </svg>
                     </div>
                     <h3 className="text-lg font-bold text-black">
-                        Material Library
+                        Select Material
                     </h3>
                 </div>
                 {isMobile && (
