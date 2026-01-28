@@ -46,6 +46,8 @@ const Footer = () => {
                             <div>
                                 <p className="font-bold text-xl lg:text-2xl text-black mb-5">Company</p>
                                 <ul className="space-y-4">
+                                    <li><a href="https://kmigroups.com/careers"
+                                        className="text-black text-lg hover:text-black transition">Careers</a></li>
                                     <li><a href="https://kmigroups.com/vendors"
                                         className="text-black text-lg hover:text-black transition">Vendors</a></li>
                                     <li><a href="https://kmigroups.com/privacy-policy"

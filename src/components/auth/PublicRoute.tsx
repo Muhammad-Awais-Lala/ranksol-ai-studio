@@ -13,7 +13,7 @@ const PublicRoute: React.FC = () => {
         );
     }
 
-    return !isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
+    return !isAuthenticated ? <Outlet /> : <Navigate to="/ai" replace />;
 };
 
 export default PublicRoute;

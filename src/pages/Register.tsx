@@ -105,12 +105,52 @@ const Register: React.FC = () => {
                 });
                 navigate('/');
             } else {
-                setErrors({ general: response.data.message || 'Signup failed' });
+                // Handle 200 OK but status false (custom error response)
+                const responseData = response.data;
+                if (responseData.errors) {
+                    const newServerErrors: typeof errors = {};
+                    if (responseData.errors.email) newServerErrors.email = responseData.errors.email[0];
+                    if (responseData.errors.username) newServerErrors.username = responseData.errors.username[0];
+                    if (responseData.errors.password) newServerErrors.password = responseData.errors.password[0];
+
+                    // If the user meant the "message box" (general error div) specifically for the email error:
+                    let generalMsg = responseData.message || 'Validation failed';
+                    if (responseData.errors.email) {
+                        generalMsg = responseData.errors.email[0];
+                    }
+
+                    setErrors({
+                        ...newServerErrors,
+                        general: generalMsg
+                    });
+                } else {
+                    setErrors({ general: responseData.message || 'Signup failed' });
+                }
             }
         } catch (err: any) {
             console.error('Registration error:', err);
-            const errorMessage = err.response?.data?.message || 'An error occurred during signup. Please try again.';
-            setErrors({ general: errorMessage });
+            const responseData = err.response?.data;
+
+            if (responseData?.errors) {
+                const newServerErrors: typeof errors = {};
+                if (responseData.errors.email) newServerErrors.email = responseData.errors.email[0];
+                if (responseData.errors.username) newServerErrors.username = responseData.errors.username[0];
+                if (responseData.errors.password) newServerErrors.password = responseData.errors.password[0];
+
+                // Prioritize showing the email error in the general box if present, as requested
+                let generalMsg = responseData.message || 'Validation error';
+                if (responseData.errors.email) {
+                    generalMsg = responseData.errors.email[0];
+                }
+
+                setErrors({
+                    ...newServerErrors,
+                    general: generalMsg
+                });
+            } else {
+                const errorMessage = responseData?.message || 'An error occurred during signup. Please try again.';
+                setErrors({ general: errorMessage });
+            }
         } finally {
             setIsLoading(false);
         }

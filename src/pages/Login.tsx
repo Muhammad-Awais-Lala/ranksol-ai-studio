@@ -74,7 +74,7 @@ const Login: React.FC = () => {
                     name: user.name,
                     email: user.email
                 });
-                navigate('/');
+                navigate('/ai');
             } else {
                 setErrors({ general: response.data.message || 'Login failed' });
             }
@@ -105,7 +105,7 @@ const Login: React.FC = () => {
                     name: user.name,
                     email: user.email
                 });
-                navigate('/');
+                navigate('/ai');
             } else {
                 setErrors({ general: response.data.message || 'Guest login failed' });
             }
