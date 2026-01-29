@@ -26,6 +26,10 @@ const ItemSelector: React.FC<ItemSelectorProps> = ({
       if (isSelected) {
         onItemsSelected(selectedItems.filter(i => i.id !== item.id));
       } else {
+        // Limit to max 3 items
+        if (selectedItems.length >= 3) {
+          return;
+        }
         onItemsSelected([...selectedItems, item]);
       }
     } else {
@@ -36,7 +40,8 @@ const ItemSelector: React.FC<ItemSelectorProps> = ({
   };
 
   const handleSelectAll = () => {
-    onItemsSelected([...detectedItems]);
+    // Disabled in multi-select limit mode
+    // onItemsSelected([...detectedItems]);
   };
 
   const handleClearAll = () => {
@@ -55,7 +60,7 @@ const ItemSelector: React.FC<ItemSelectorProps> = ({
           <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
           </svg>
-          {multiSelectMode ? 'Select Items' : 'Select Item'}
+          {multiSelectMode ? 'Select Items (Max 3)' : 'Select Item'}
         </h3>
         {selectedItems.length > 0 && (
           <span className="px-3 py-1 bg-[#EFE223] text-black text-sm font-bold rounded-full shadow-md">
@@ -86,9 +91,9 @@ const ItemSelector: React.FC<ItemSelectorProps> = ({
           {multiSelectMode && (
             <div className="flex gap-2 mb-3 w-full">
               <button
-                onClick={handleSelectAll}
-                disabled={disabled || detectedItems.length === selectedItems.length}
-                className="flex-1 px-3 py-2 bg-black hover:bg-gray-900 text-[#EFE223] text-sm font-medium rounded-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+                disabled={true}
+                className="flex-1 px-3 py-2 bg-gray-100 text-gray-400 text-sm font-medium rounded-md cursor-not-allowed shadow-none border border-transparent"
+                title="Select All is disabled"
               >
                 Select All
               </button>

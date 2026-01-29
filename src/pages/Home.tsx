@@ -23,7 +23,8 @@ function Home() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [multiSelectMode, setMultiSelectMode] = useState<boolean>(false); // New state for multi-select toggle
-    const [detectableItems, setDetectableItems] = useState<(string | { name: string; slug: string })[]>(DEFAULT_DETECTABLE_ITEMS);
+    const [detectableItems, setDetectableItems] = useState<(string | { name: string; slug: string })[]>();
+    // const [detectableItems, setDetectableItems] = useState<(string | { name: string; slug: string })[]>(DEFAULT_DETECTABLE_ITEMS);
     const [showPanoramaViewer, setShowPanoramaViewer] = useState<boolean>(false); // New state for panorama viewer
 
     useEffect(() => {

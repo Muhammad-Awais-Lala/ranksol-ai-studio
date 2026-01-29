@@ -164,7 +164,7 @@ const Login: React.FC = () => {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className={`w-full pl-8 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full pl-8 p-2 text-sm text-black bg-white border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.email ? 'border-red-500' : 'border-gray-300'
                                             }`}
                                         placeholder="Enter your email"
                                     />
@@ -188,7 +188,7 @@ const Login: React.FC = () => {
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className={`w-full pl-8 pr-10 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full pl-8 pr-10 p-2 text-sm text-black bg-white border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.password ? 'border-red-500' : 'border-gray-300'
                                             }`}
                                         placeholder="Enter your password"
                                     />

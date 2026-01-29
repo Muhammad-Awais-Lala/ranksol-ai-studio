@@ -203,7 +203,7 @@ const Register: React.FC = () => {
                                         name="username"
                                         value={formData.username}
                                         onChange={handleChange}
-                                        className={`w-full pl-8 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.username ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full pl-8 p-2 text-sm text-black bg-white border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.username ? 'border-red-500' : 'border-gray-300'
                                             }`}
                                         placeholder="Choose a username"
                                     />
@@ -227,7 +227,7 @@ const Register: React.FC = () => {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className={`w-full pl-8 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full pl-8 p-2 text-sm text-black bg-white border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.email ? 'border-red-500' : 'border-gray-300'
                                             }`}
                                         placeholder="Enter your email"
                                     />
@@ -251,7 +251,7 @@ const Register: React.FC = () => {
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className={`w-full pl-8 pr-10 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full pl-8 pr-10 p-2 text-sm text-black bg-white border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.password ? 'border-red-500' : 'border-gray-300'
                                             }`}
                                         placeholder="Create a password"
                                     />
@@ -282,7 +282,7 @@ const Register: React.FC = () => {
                                         name="confirmPassword"
                                         value={formData.confirmPassword}
                                         onChange={handleChange}
-                                        className={`w-full pl-8 pr-10 p-2 text-sm border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                                        className={`w-full pl-8 pr-10 p-2 text-sm text-black bg-white border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
                                             }`}
                                         placeholder="Confirm your password"
                                     />
