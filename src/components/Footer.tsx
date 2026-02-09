@@ -40,6 +40,8 @@ const Footer = () => {
                                         className="text-black text-lg hover:text-black transition">All Products</a></li>
                                     <li><a href="https://kmigroups.com/contact"
                                         className="text-black text-lg hover:text-black transition">Become a Vendor</a></li>
+                                    <li><a href="https://kmigroups.com/blogs"
+                                        className="text-black text-lg hover:text-black transition">Blogs</a></li>
                                 </ul>
                             </div>
                             {/* Company */}
