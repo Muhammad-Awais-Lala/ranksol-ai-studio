@@ -57,12 +57,14 @@ const Header: React.FC = () => {
                     <ul className="hidden lg:flex items-center gap-6">
                         {navigationLinks.map((link, index) => (
                             <li key={index}>
-                                <Link
-                                    to={link.href}
+                                <a
+                                    href={link.href}
                                     className="text-black text-[18px] font-semibold no-underline hover:opacity-70 transition-opacity"
+                                    target={link.target || '_self'}
+                                    rel={link.target ? 'noopener noreferrer' : ''}
                                 >
                                     {link.text}
-                                </Link>
+                                </a>
                             </li>
                         ))}
                     </ul>
