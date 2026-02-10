@@ -28,8 +28,8 @@ const Header: React.FC = () => {
     };
 
     const navigationLinks: NavigationLink[] = [
-        { text: 'Home', href: '/' },
-        { text: 'AI Design Studio', href: 'https://kmigroups.com/ai-design' },
+        { text: 'Home', href: 'https://kmigroups.com/' },
+        { text: 'AI Design Studios', href: 'https://kmigroups.com/ai-design' },
         { text: 'Product Studio', href: 'https://kmigroups.com/product-category', target: '_blank' },
         { text: 'Catalogue', href: 'https://kmigroups.com/catalog', target: '_blank' },
         { text: 'Contact us', href: 'https://kmigroups.com/contact', target: '_blank' }
@@ -57,23 +57,12 @@ const Header: React.FC = () => {
                     <ul className="hidden lg:flex items-center gap-6">
                         {navigationLinks.map((link, index) => (
                             <li key={index}>
-                                {link.href.startsWith('/') ? (
-                                    <Link
-                                        to={link.href}
-                                        className="text-black text-[18px] font-semibold no-underline hover:opacity-70 transition-opacity"
-                                    >
-                                        {link.text}
-                                    </Link>
-                                ) : (
-                                    <a
-                                        href={link.href}
-                                        className="text-black text-[18px] font-semibold no-underline hover:opacity-70 transition-opacity"
-                                        target={link.target || '_self'}
-                                        rel={link.target ? 'noopener noreferrer' : ''}
-                                    >
-                                        {link.text}
-                                    </a>
-                                )}
+                                <Link
+                                    to={link.href}
+                                    className="text-black text-[18px] font-semibold no-underline hover:opacity-70 transition-opacity"
+                                >
+                                    {link.text}
+                                </Link>
                             </li>
                         ))}
                     </ul>
