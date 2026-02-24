@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUserPlus } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from 'react-icons/fa';
+import { HiOutlineArrowRight } from 'react-icons/hi';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { API_BASE_URL } from '../../constants';
+
+// Internal Helper for Icon
+const WarningIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+);
 
 const Login: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -19,48 +29,29 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
         if (errors[name as keyof typeof errors]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
-        }
-        if (errors.general) {
-            setErrors(prev => ({ ...prev, general: '' }));
         }
     };
 
     const validateForm = () => {
         const newErrors: typeof errors = {};
-
-        if (!formData.email) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Please enter a valid email address';
-        }
-
-        if (!formData.password) {
-            newErrors.password = 'Password is required';
-        } else if (formData.password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters';
-        }
-
+        if (!formData.email) newErrors.email = 'Email is required';
+        if (!formData.password) newErrors.password = 'Password is required';
         return newErrors;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const validationErrors = validateForm();
-
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
 
         setIsLoading(true);
-
         try {
             const response = await axios.post(`${API_BASE_URL}/login`, {
                 email: formData.email,
@@ -74,183 +65,149 @@ const Login: React.FC = () => {
                     name: user.name,
                     email: user.email
                 });
-                navigate('/ai');
+                navigate('/');
             } else {
                 setErrors({ general: response.data.message || 'Login failed' });
             }
         } catch (err: any) {
-            console.error('Login error:', err);
-            const errorMessage = err.response?.data?.message || 'Invalid credentials or server error. Please try again.';
-            setErrors({ general: errorMessage });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleGuestLogin = async () => {
-        setIsLoading(true);
-        // Clear previous errors
-        setErrors({});
-
-        try {
-            const response = await axios.post(`${API_BASE_URL}/login`, {
-                email: "guest@example.com",
-                password: "Guest@12345"
-            });
-
-            if (response.data.status) {
-                const { token, user } = response.data.data;
-                login(token, {
-                    id: user.id.toString(),
-                    name: user.name,
-                    email: user.email
-                });
-                navigate('/ai');
-            } else {
-                setErrors({ general: response.data.message || 'Guest login failed' });
-            }
-        } catch (err: any) {
-            console.error('Guest login error:', err);
-            const errorMessage = err.response?.data?.message || 'Guest login failed. Please try again.';
-            setErrors({ general: errorMessage });
+            setErrors({ general: err.response?.data?.message || 'Invalid credentials or server error.' });
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="h-screen bg-white flex items-center justify-center p-4 overflow-hidden">
-            {/* Main Container */}
-            <div className="relative w-full max-w-sm">
-                {/* Combined Yellow Header and Login Card */}
-                <div className="rounded-xl shadow-xl overflow-hidden border border-gray-300">
-                    {/* Yellow Header - Pure #EFE223 */}
-                    <div className="bg-[#EFE223] p-4 text-center">
-                        <div className="flex flex-col items-center justify-center">
-                            {/* KMI Logo - Smaller */}
-                            <div className="mb-2">
-                                <img
-                                    src="https://kmigroups.com/images/logo.webp"
-                                    alt="KMI Logo"
-                                    className="h-10 w-auto object-contain"
-                                />
-                            </div>
-                            <h1 className="text-lg font-bold text-black">KMI AI Design Studio</h1>
-                            {/* <p className="text-black/90 text-xs mt-0.5">Project Portal</p> */}
-                        </div>
+        <div className="min-h-screen flex bg-white font-primary">
+            {/* Left Side: Branding & Info */}
+            <div className="hidden lg:flex lg:w-1/2 bg-black relative overflow-hidden">
+                <div className="absolute inset-0 bg-[#F37021]/10 backdrop-blur-[100px] z-10"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#F37021] rounded-full blur-[150px] opacity-20"></div>
+
+                <div className="relative z-20 w-full p-20 flex flex-col justify-between">
+                    <div>
+                        <img
+                            src="https://ranksol.com/wp-content/uploads/2023/10/ranksol-logo.png"
+                            alt="RankSol"
+                            className="h-10 w-auto mb-12"
+                        />
+                        <h1 className="text-6xl font-black text-white leading-tight mb-6">
+                            Visualize your <br />
+                            <span className="text-[#F37021]">Interior Dreams</span> <br />
+                            with AI.
+                        </h1>
+                        <p className="text-xl text-gray-400 max-w-md font-medium">
+                            RankSol AI Design Studio helps you reimagine any space with cutting-edge artificial intelligence.
+                        </p>
                     </div>
 
-                    {/* Login Form */}
-                    <div className="bg-white p-4">
-                        <form onSubmit={handleSubmit} className="space-y-3">
-                            {/* General Error Message */}
-                            {errors.general && (
-                                <div className="p-2 text-xs text-red-600 bg-red-50 border border-red-200 rounded-md text-center">
-                                    {errors.general}
-                                </div>
-                            )}
-
-                            {/* Email Field */}
+                    <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] backdrop-blur-md">
+                        <p className="text-white font-bold text-lg mb-4 italic">
+                            "The easiest way to transform your home. Just upload, click, and be wowed."
+                        </p>
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#F37021] to-orange-400"></div>
                             <div>
-                                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                                    Email Address
-                                </label>
-                                <div className="relative">
-                                    <div className="absolute left-2.5 top-2.5 text-gray-400 text-sm">
-                                        <FaEnvelope />
-                                    </div>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        className={`w-full pl-8 p-2 text-sm text-black bg-white border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.email ? 'border-red-500' : 'border-gray-300'
-                                            }`}
-                                        placeholder="Enter your email"
-                                    />
-                                </div>
-                                {errors.email && (
-                                    <p className="mt-0.5 text-xs text-red-600">{errors.email}</p>
-                                )}
+                                <p className="text-white font-bold">Muhammad Awais</p>
+                                <p className="text-gray-500 text-sm">Lead Designer, RankSol</p>
                             </div>
-
-                            {/* Password Field */}
-                            <div>
-                                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                                    Password
-                                </label>
-                                <div className="relative">
-                                    <div className="absolute left-2.5 top-2.5 text-gray-400 text-sm">
-                                        <FaLock />
-                                    </div>
-                                    <input
-                                        type={showPassword ? 'text' : 'password'}
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        className={`w-full pl-8 pr-10 p-2 text-sm text-black bg-white border rounded-md focus:outline-none focus:border-[#EFE223] focus:ring-1 focus:ring-[#EFE223] ${errors.password ? 'border-red-500' : 'border-gray-300'
-                                            }`}
-                                        placeholder="Enter your password"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-2.5 top-2.5 text-gray-500 hover:text-black text-sm"
-                                    >
-                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                    </button>
-                                </div>
-                                {errors.password && (
-                                    <p className="mt-0.5 text-xs text-red-600">{errors.password}</p>
-                                )}
-                            </div>
-
-
-                            {/* Login Button */}
-                            <button
-                                type="submit"
-                                disabled={isLoading}
-                                className={`w-full py-2.5 px-4 rounded-md font-bold text-sm text-black transition-colors ${isLoading
-                                    ? 'bg-[#EFE223] cursor-not-allowed'
-                                    : 'bg-[#EFE223] hover:bg-[#EFE223]'
-                                    }`}
-                            >
-                                {isLoading ? (
-                                    <div className="flex items-center justify-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                                        <span>Logging in...</span>
-                                    </div>
-                                ) : (
-                                    'LOGIN'
-                                )}
-                            </button>
-
-                            <div className="relative flex items-center justify-center my-4">
-                                <div className="border-t border-gray-300 w-full"></div>
-                                <span className="bg-white px-2 text-xs text-gray-500 font-medium">OR</span>
-                                <div className="border-t border-gray-300 w-full"></div>
-                            </div>
-
-                            <button
-                                type="button"
-                                onClick={handleGuestLogin}
-                                disabled={isLoading}
-                                className="w-full py-2.5 px-4 rounded-md font-bold text-sm text-gray-700 bg-gray-100 border border-gray-300 hover:bg-gray-200 transition-colors"
-                            >
-                                Continue as Guest
-                            </button>
-                        </form>
-
-                        {/* Sign Up Link */}
-                        <div className="mt-4 text-center">
-                            <p className="text-gray-600 text-xs">
-                                Don't have an account?{' '}
-                                <Link to="/register" className="text-black hover:text-black font-medium flex items-center justify-center gap-1">
-                                    <FaUserPlus />
-                                    <span>Sign up</span>
-                                </Link>
-                            </p>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Side: Login Form */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50/50">
+                <div className="w-full max-w-md animate-in slide-in-from-right-10 duration-700">
+                    <div className="mb-12">
+                        <Link to="/" className="lg:hidden block mb-8">
+                            <img
+                                src="https://ranksoltools.com/assets/img/logo.png"
+                                alt="RankSol"
+                                className="h-8 w-auto"
+                            />
+                        </Link>
+                        <h2 className="text-4xl font-black text-black mb-2 tracking-tight">Welcome Back</h2>
+                        <p className="text-gray-500 font-medium">Please enter your details to sign in.</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {errors.general && (
+                            <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-sm font-bold flex items-center gap-3">
+                                <WarningIcon />
+                                {errors.general}
+                            </div>
+                        )}
+
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Email Address</label>
+                            <div className="relative group">
+                                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#F37021] transition-colors" />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder="name@company.com"
+                                    className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold focus:border-[#F37021] outline-none transition-all"
+                                />
+                            </div>
+                            {errors.email && <p className="mt-2 text-xs text-red-500 font-bold ml-1">{errors.email}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
+                            <div className="relative group">
+                                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#F37021] transition-colors" />
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    placeholder="••••••••"
+                                    className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-12 text-sm font-bold focus:border-[#F37021] outline-none transition-all"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-black"
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </button>
+                            </div>
+                            {errors.password && <p className="mt-2 text-xs text-red-500 font-bold ml-1">{errors.password}</p>}
+                        </div>
+
+                        <div className="flex items-center justify-between py-2">
+                            <div className="flex items-center gap-2">
+                                <input type="checkbox" id="remember" className="w-4 h-4 rounded border-gray-300 text-[#F37021] focus:ring-[#F37021]" />
+                                <label htmlFor="remember" className="text-sm font-bold text-gray-600 cursor-pointer">Remember me</label>
+                            </div>
+                            <Link to="/forgot" className="text-sm font-bold text-[#F37021] hover:underline">Forgot password?</Link>
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full bg-black text-white py-5 rounded-[20px] font-black text-lg hover:bg-[#F37021] transform active:scale-95 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-3 disabled:opacity-50"
+                        >
+                            {isLoading ? (
+                                <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                            ) : (
+                                <>
+                                    <span>Sign In</span>
+                                    <HiOutlineArrowRight size={20} />
+                                </>
+                            )}
+                        </button>
+                    </form>
+
+                    <div className="mt-10 text-center">
+                        <p className="text-gray-500 font-medium">
+                            First time here?
+                            <Link to="/register" className="text-[#F37021] font-black ml-2 hover:underline">
+                                Create an account
+                            </Link>
+                        </p>
                     </div>
                 </div>
             </div>

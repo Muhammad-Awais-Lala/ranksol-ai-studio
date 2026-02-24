@@ -7,11 +7,11 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #000000;
+    background: var(--rs-orange);
     border-radius: 10px;
 }
 
 .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #000000 transparent;
+    scrollbar-color: var(--rs-orange) transparent;
 }

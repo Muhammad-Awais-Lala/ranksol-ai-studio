@@ -140,7 +140,7 @@ export async function recolorImageItem(
   const prompt = `In this image, change the color of ${selectedItemDescription} to ${newColor}. Ensure only that specific item's color is modified, maintaining the original texture and other elements. Keep the surrounding environment untouched.
  
   WATERMARK:
-   - Add a subtle "KMI" watermark text in the bottom-right corner of the image.
+   - Add a subtle "RankSol" watermark text in the bottom-right corner of the image.
    - Make it semi-transparent (about 30-40% opacity) and small enough to not obstruct the view.
    - Use a clean, professional font style.
    - The watermark should be visible but not distracting.`;
@@ -230,7 +230,7 @@ CONSTRAINTS:
 - Do NOT modify anything else in the room.
 
 WATERMARK:
-   - Add a subtle "KMI" watermark text in the bottom-right corner of the image.
+   - Add a subtle "RankSol" watermark text in the bottom-right corner of the image.
    - Make it semi-transparent (about 30-40% opacity) and small enough to not obstruct the view.
    - Use a clean, professional font style.
    - The watermark should be visible but not distracting.

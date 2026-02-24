@@ -1,0 +1,213 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top right, var(--rs-gray-dark), var(--rs-black));
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-container::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: var(--rs-orange);
+    filter: blur(150px);
+    opacity: 0.15;
+    top: -100px;
+    right: -100px;
+    z-index: 0;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--rs-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-header {
+    background: var(--rs-black);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--rs-gradient);
+}
+
+.auth-logo {
+    height: 48px;
+    width: auto;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 8px rgba(243, 112, 33, 0.3));
+}
+
+.auth-title {
+    color: var(--rs-white);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.auth-body {
+    padding: 2rem 1.5rem;
+}
+
+.auth-input-group {
+    margin-bottom: 1.25rem;
+}
+
+.auth-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--rs-gray-medium);
+    margin-bottom: 0.5rem;
+}
+
+.auth-input-wrapper {
+    position: relative;
+}
+
+.auth-input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rs-gray-medium);
+    transition: var(--transition);
+}
+
+.auth-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    font-size: 0.9375rem;
+    border: 1.5px solid var(--rs-gray-light);
+    border-radius: var(--radius-md);
+    background: var(--rs-gray-light);
+    color: var(--rs-black);
+    transition: var(--transition);
+}
+
+.auth-input:focus {
+    outline: none;
+    background: var(--rs-white);
+    border-color: var(--rs-orange);
+    box-shadow: 0 0 0 4px rgba(243, 112, 33, 0.1);
+}
+
+.auth-input:focus+.auth-input-icon {
+    color: var(--rs-orange);
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--rs-black);
+    color: var(--rs-white);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.auth-btn:hover {
+    background: var(--rs-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(243, 112, 33, 0.3);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-link-container {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--rs-gray-medium);
+}
+
+.auth-link {
+    color: var(--rs-orange);
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 0.25rem;
+    transition: var(--transition);
+}
+
+.auth-link:hover {
+    color: var(--rs-orange-dark);
+    text-decoration: underline;
+}
+
+.error-msg {
+    padding: 0.75rem;
+    background: rgba(220, 38, 38, 0.05);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: var(--radius-md);
+    color: #dc2626;
+    font-size: 0.8125rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}

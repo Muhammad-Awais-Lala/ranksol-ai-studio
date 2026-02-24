@@ -23,4 +23,4 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const GENERATION_MODEL = import.meta.env.VITE_GENERATION_MODEL;
 export const GENERATION_MODEL_PRO = import.meta.env.VITE_GENERATION_MODEL_PRO;
 
-export const DEFAULT_COLOR = '#4A90E2'; // A pleasant default blue
+export const DEFAULT_COLOR = '#F37021'; // RankSol Orange

@@ -1,2 +1,4 @@
+@import "./src/css/global.css";
+@import "./src/css/auth.css";
 @import "./src/css/itemSelector.css";
 @import "./src/css/imageUploader.css";
