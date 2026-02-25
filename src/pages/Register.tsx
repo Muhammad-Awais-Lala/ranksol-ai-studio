@@ -97,11 +97,11 @@ const Register: React.FC = () => {
                 <div className="relative z-20 w-full p-20 flex flex-col justify-between">
                     <div>
                         <img
-                            src="https://ranksol.com/wp-content/uploads/2023/10/ranksol-logo.png"
+                            src="https://ranksol.com/wp-content/uploads/2020/10/ranksol-logo1-1.png"
                             alt="RankSol"
-                            className="h-10 w-auto mb-12"
+                            className="h-16 w-auto mb-12"
                         />
-                        <h1 className="text-6xl font-black text-white leading-tight mb-6">
+                        <h1 className="text-4xl font-black text-white leading-tight mb-6">
                             Start Your <br />
                             <span className="text-[#F37021]">Creative Journey</span> <br />
                             Today.
@@ -111,12 +111,13 @@ const Register: React.FC = () => {
                         </p>
                     </div>
 
-                    <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] backdrop-blur-md">
+                    {/* <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] backdrop-blur-md">
                         <div className="flex gap-4 mb-6">
                             <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#F37021] font-bold">10k+</div>
                             <p className="text-white/60 text-sm font-medium">Active users designing their spaces daily using our AI engine.</p>
                         </div>
-                    </div>
+                    </div> */}
+
                 </div>
             </div>
 
@@ -126,7 +127,7 @@ const Register: React.FC = () => {
                     <div className="mb-10">
                         <Link to="/" className="lg:hidden block mb-8">
                             <img
-                                src="https://ranksoltools.com/assets/img/logo.png"
+                                src="https://ranksol.com/wp-content/uploads/2020/10/ranksol-logo1-1.png"
                                 alt="RankSol"
                                 className="h-8 w-auto"
                             />

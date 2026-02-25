@@ -58,15 +58,16 @@ const Header: React.FC = () => {
                 <div className="h-8 w-px bg-gray-100 mx-1"></div>
 
                 <div className="flex items-center gap-3 pl-2">
-                    <div className="text-right hidden sm:block">
+                    {/* <div className="text-right hidden sm:block">
                         <p className="text-sm font-bold text-black leading-none">RankSol Admin</p>
                         <p className="text-[11px] font-medium text-gray-500">Premium Plan</p>
-                    </div>
+                    </div> */}
                     <button
                         onClick={handleLogout}
                         className="flex items-center justify-center p-2.5 bg-black text-white rounded-xl hover:bg-[#F37021] transition-all duration-300 shadow-lg shadow-black/10 group"
                         title="Logout"
                     >
+                        Logout
                         <HiOutlineLogout size={22} className="group-hover:translate-x-0.5 transition-transform" />
                     </button>
                 </div>

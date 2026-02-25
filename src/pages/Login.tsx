@@ -86,11 +86,11 @@ const Login: React.FC = () => {
                 <div className="relative z-20 w-full p-20 flex flex-col justify-between">
                     <div>
                         <img
-                            src="https://ranksol.com/wp-content/uploads/2023/10/ranksol-logo.png"
+                            src="https://ranksol.com/wp-content/uploads/2020/10/ranksol-logo1-1.png"
                             alt="RankSol"
-                            className="h-10 w-auto mb-12"
+                            className="h-16 w-auto mb-12"
                         />
-                        <h1 className="text-6xl font-black text-white leading-tight mb-6">
+                        <h1 className="text-4xl font-black text-white leading-tight mb-6">
                             Visualize your <br />
                             <span className="text-[#F37021]">Interior Dreams</span> <br />
                             with AI.
@@ -100,17 +100,17 @@ const Login: React.FC = () => {
                         </p>
                     </div>
 
-                    <div className="bg-white/5 border border-white/10 p-8 rounded-[32px] backdrop-blur-md">
-                        <p className="text-white font-bold text-lg mb-4 italic">
+                    <div className="mt-10 bg-white/5 border border-white/10 p-8 rounded-[32px] backdrop-blur-md">
+                        <p className="text-white font-medium text-lg  italic">
                             "The easiest way to transform your home. Just upload, click, and be wowed."
                         </p>
-                        <div className="flex items-center gap-4">
+                        {/* <div className="flex items-center gap-4">
                             <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#F37021] to-orange-400"></div>
                             <div>
                                 <p className="text-white font-bold">Muhammad Awais</p>
                                 <p className="text-gray-500 text-sm">Lead Designer, RankSol</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@ const Login: React.FC = () => {
                     <div className="mb-12">
                         <Link to="/" className="lg:hidden block mb-8">
                             <img
-                                src="https://ranksoltools.com/assets/img/logo.png"
+                                src="https://ranksol.com/wp-content/uploads/2020/10/ranksol-logo1-1.png"
                                 alt="RankSol"
                                 className="h-8 w-auto"
                             />
