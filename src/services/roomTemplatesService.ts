@@ -38,7 +38,7 @@ export async function urlToFile(imageUrl: string, fileName: string): Promise<Fil
         // Ensure we always hit the correct backend domain
         let fullUrl = imageUrl;
         if (!imageUrl.startsWith('http')) {
-            fullUrl = `https://kmigroups.com${imageUrl}`;
+            fullUrl = `https://aistudio.ranksol.net${imageUrl}`;
         }
 
         const response = await fetch(fullUrl);

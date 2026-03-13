@@ -92,7 +92,7 @@ const ProductPicker: React.FC<ProductPickerProps> = ({ selectedSheet, onSheetCha
                                         `}
                                     >
                                         <img
-                                            src={sheet.thumbnail || sheet.path || `https://kmigroups.com${sheet.path}`}
+                                            src={sheet.thumbnail || sheet.path || `https://aistudio.ranksol.net${sheet.path}`}
                                             alt={sheet.name}
                                             className="w-full h-full object-cover"
                                             loading="lazy"

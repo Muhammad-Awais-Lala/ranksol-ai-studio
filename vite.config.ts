@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       proxy: {
         '/storage': {
-          target: 'https://kmigroups.com',
+          target: 'https://aistudio.ranksol.net',
           changeOrigin: true,
           secure: false,
         }

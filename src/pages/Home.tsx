@@ -69,7 +69,7 @@ function Home() {
         try {
             let textureUrl = selectedSheet.path;
             if (!textureUrl.startsWith('http')) {
-                textureUrl = `https://kmigroups.com${textureUrl}`;
+                textureUrl = `https://aistudio.ranksol.net${textureUrl}`;
             }
 
             const textureResponse = await fetch(textureUrl);
