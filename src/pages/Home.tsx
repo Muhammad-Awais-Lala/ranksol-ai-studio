@@ -7,6 +7,7 @@ import ItemSelector from '../components/ItemSelector';
 import ProductPicker from '../components/ProductPicker';
 import { fileToBase64, detectItemsInImage, recolorImageItem, applyTextureToItem } from '../services/geminiService';
 import { type Sheet } from '../services/sheetsService';
+import { toProxyUrl } from '../services/roomTemplatesService';
 import { DEFAULT_COLOR, API_BASE_URL } from '../../constants';
 import { DetectedItem } from '../../types';
 import { HiOutlineSparkles, HiOutlineDownload, HiOutlineExclamationCircle, HiOutlineViewGrid, HiOutlineAdjustments } from 'react-icons/hi';
@@ -67,12 +68,10 @@ function Home() {
         setError(null);
 
         try {
-            let textureUrl = selectedSheet.path;
-            if (!textureUrl.startsWith('http')) {
-                textureUrl = `https://aistudio.ranksol.net${textureUrl}`;
-            }
+            // Use proxy-friendly relative URL to avoid CORS
+            const fetchUrl = toProxyUrl(selectedSheet.path);
 
-            const textureResponse = await fetch(textureUrl);
+            const textureResponse = await fetch(fetchUrl);
             const textureBlob = await textureResponse.blob();
             const textureFile = new File([textureBlob], 'texture.png', { type: textureBlob.type });
             const textureBase64 = await fileToBase64(textureFile);

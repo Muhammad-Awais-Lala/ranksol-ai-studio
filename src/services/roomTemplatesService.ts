@@ -28,6 +28,20 @@ export async function fetchRoomTemplates(): Promise<RoomTemplate[]> {
 }
 
 /**
+ * Converts a full or relative image URL to a proxy-friendly relative path.
+ * Strips the backend domain so the request goes through the Vite dev proxy,
+ * avoiding CORS issues during local development.
+ */
+export function toProxyUrl(imageUrl: string): string {
+    const backendOrigin = 'https://aistudio.ranksol.net';
+    if (imageUrl.startsWith(backendOrigin)) {
+        return imageUrl.replace(backendOrigin, '');
+    }
+    // Already a relative path like /storage/...
+    return imageUrl;
+}
+
+/**
  * Converts an image URL to a File object (blob)
  * @param imageUrl The URL of the image to convert
  * @param fileName The name to give the file
@@ -35,13 +49,10 @@ export async function fetchRoomTemplates(): Promise<RoomTemplate[]> {
  */
 export async function urlToFile(imageUrl: string, fileName: string): Promise<File> {
     try {
-        // Ensure we always hit the correct backend domain
-        let fullUrl = imageUrl;
-        if (!imageUrl.startsWith('http')) {
-            fullUrl = `https://aistudio.ranksol.net${imageUrl}`;
-        }
+        // Use proxy-friendly relative URL to avoid CORS
+        const fetchUrl = toProxyUrl(imageUrl);
 
-        const response = await fetch(fullUrl);
+        const response = await fetch(fetchUrl);
         const blob = await response.blob();
 
         // Create a File object from the blob
