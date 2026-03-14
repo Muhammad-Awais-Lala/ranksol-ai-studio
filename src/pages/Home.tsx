@@ -192,8 +192,8 @@ function Home() {
                             <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100 relative group">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase mb-2">Active Source</p>
                                 <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200">
-                                        <img src={originalImageUrl!} className="w-full h-full object-cover" />
+                                    <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200 flex items-center justify-center bg-white">
+                                        <img src={originalImageUrl!} className="max-w-full max-h-full object-contain" />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-bold text-black truncate">{originalFile.name}</p>

@@ -59,7 +59,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     <div className="flex flex-col gap-4 w-full font-primary">
       <div className="flex items-center justify-between px-1">
         <h3 className="text-sm font-black text-black uppercase tracking-widest flex items-center gap-2">
-          <HiOutlineCamera size={18} className="text-[#F37021]" />
+          <span className="text-[#F37021]"><HiOutlineCamera size={18} /></span>
           Source Image
         </h3>
       </div>
@@ -94,7 +94,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           {roomTemplates.length > 0 && (
             <div className="space-y-3">
               <div className="flex items-center gap-2 px-1">
-                <HiOutlineDuplicate size={14} className="text-[#F37021]" />
+                <span className="text-[#F37021]"><HiOutlineDuplicate size={14} /></span>
                 <span className="text-[10px] font-black uppercase text-gray-400 tracking-wider">Try a Template</span>
               </div>
               <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
@@ -103,11 +103,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                     key={template.slug}
                     onClick={() => handleTemplateSelect(template)}
                     className={`
-                                    flex-shrink-0 w-24 h-16 rounded-xl overflow-hidden border-2 transition-all
+                                    flex-shrink-0 w-24 h-16 rounded-xl overflow-hidden border-2 transition-all flex items-center justify-center bg-gray-50
                                     ${selectedTemplateSlug === template.slug ? 'border-[#F37021] scale-95 shadow-lg' : 'border-gray-100 hover:border-[#F37021]'}
                                 `}
                   >
-                    <img src={template.image} className="w-full h-full object-cover" alt={template.slug} />
+                    <img src={template.image} className="max-w-full max-h-full object-contain" alt={template.slug} />
                   </button>
                 ))}
               </div>
@@ -115,8 +115,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           )}
         </div>
       ) : (
-        <div className="relative group rounded-[32px] overflow-hidden border-2 border-gray-100 shadow-sm aspect-video bg-gray-50">
-          <img src={previewUrl} className="w-full h-full object-cover" alt="Preview" />
+        <div className="relative group rounded-[32px] overflow-hidden border-2 border-gray-100 shadow-sm bg-gray-50 flex items-center justify-center min-h-[300px] max-h-[600px] p-2">
+          <img src={previewUrl} className="max-w-full max-h-full object-contain rounded-2xl" alt="Preview" />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <button
               onClick={onImageRemoved}
@@ -135,7 +135,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
       {!previewUrl && (
         <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-          <HiOutlineExclamation className="text-[#F37021] flex-shrink-0 mt-0.5" size={16} />
+          <span className="text-[#F37021] flex-shrink-0 mt-0.5"><HiOutlineExclamation size={16} /></span>
           <p className="text-[10px] text-gray-500 font-medium leading-relaxed">
             Higher quality images give better AI detection results. Try to use well-lit photos.
           </p>
